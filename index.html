@@ -28,6 +28,7 @@
                 <div class="upload-section">
                     <label for="imageInput" class="file-label">Choose Image</label>
                     <input type="file" id="imageInput" accept="image/png, image/jpeg, image/jpg, image/webp">
+                    <span id="previewImage" class="preview-image"></span>
                     <span id="fileName">No file chosen</span>
                 </div>
 
@@ -123,6 +124,11 @@
             <div class="empty-state" id="emptyState">
                 <div class="empty-icon">📷</div>
                 <div class="empty-text">Choose an image to get started</div>
+                <div class="empty-hints">
+                    <div class="hint">• Drag and drop an image</div>
+                    <div class="hint">• Paste from clipboard (Ctrl+V)</div>
+                    <div class="hint">• Click "Choose Image" button</div>
+                </div>
             </div>
         </div>
     </div>

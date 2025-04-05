@@ -18,6 +18,7 @@ const emptyState = document.getElementById('emptyState');
 const gutter = document.getElementById('gutter');
 const resultPane = document.getElementById('resultPane');
 const originalPane = document.getElementById('originalPane');
+const previewImage = document.getElementById('previewImage');
 
 // Manual input controls
 const autoDetectRadio = document.getElementById('autoDetect');
@@ -73,19 +74,65 @@ manualInputRadio.addEventListener('change', () => {
     yPaddingInput.disabled = false;
 });
 
-imageInput.addEventListener('change', (event) => {
-    selectedFile = event.target.files[0];
+function handleImageSelection(file) {
+    selectedFile = file;
+    
     if (selectedFile) {
-        fileNameSpan.textContent = selectedFile.name;
+        fileNameSpan.textContent = selectedFile.name || 'Pasted image';
         convertBtn.disabled = false;
+        
         // Reset UI
         resultSection.style.display = 'none';
         errorSection.style.display = 'none';
         resultImage.src = '#';
         downloadBtn.href = '#';
+        
+        // Display preview image
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImage.innerHTML = `<img src="${e.target.result}" alt="Preview" class="preview-image">`;
+        };
+        reader.readAsDataURL(selectedFile);
     } else {
         fileNameSpan.textContent = 'No file chosen';
         convertBtn.disabled = true;
+        previewImage.innerHTML = '';
+    }
+}
+
+// Handle file input changes
+imageInput.addEventListener('change', (event) => {
+    handleImageSelection(event.target.files[0]);
+});
+
+// Handle paste events
+document.addEventListener('paste', (event) => {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (const item of items) {
+        if (item.type.indexOf('image') === 0) {
+            event.preventDefault();
+            handleImageSelection(item.getAsFile());
+            break;
+        }
+    }
+});
+
+document.body.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+});
+document.body.addEventListener('dragleave', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+});
+document.body.addEventListener('drop', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+        const file = event.dataTransfer.files[0];
+        if (file.type.indexOf('image') === 0) {
+            handleImageSelection(file);
+        }
     }
 });
 
