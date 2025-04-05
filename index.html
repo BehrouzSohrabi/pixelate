@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Resizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Control Panel -->
+        <div class="control-panel" id="controlPanel">
+            <div class="panel-header">
+                <h1 class="panel-title">Pixel Art Resizer</h1>
+                <button class="panel-toggle" id="panelToggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <div class="panel-content">
+                <p class="panel-description">Upload a large "pixel art" image where each logical pixel is a block of
+                    actual pixels. This tool will detect the block size and create a pixel-perfect small version.</p>
+
+                <div class="upload-section">
+                    <label for="imageInput" class="file-label">Choose Image</label>
+                    <input type="file" id="imageInput" accept="image/png, image/jpeg, image/jpg, image/webp">
+                    <span id="fileName">No file chosen</span>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="section-title">Settings</h3>
+                    <div class="setting-option">
+                        <label class="radio-label">
+                            <input type="radio" id="autoDetect" name="blockSizeMode" value="auto" checked>
+                            Auto-detect block size
+                        </label>
+                    </div>
+
+                    <div class="setting-option">
+                        <label class="radio-label">
+                            <input type="radio" id="manualInput" name="blockSizeMode" value="manual">
+                            Manual block size
+                        </label>
+                        <div class="manual-inputs" id="manualInputs">
+                            <div class="input-group">
+                                <label for="manualBlockSize">Block Size:</label>
+                                <input type="number" id="manualBlockSize" min="2" value="8" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label for="xPadding">X Padding:</label>
+                                <input type="number" id="xPadding" min="0" value="0" disabled>
+                            </div>
+                            <div class="input-group">
+                                <label for="yPadding">Y Padding:</label>
+                                <input type="number" id="yPadding" min="0" value="0" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="convertBtn" disabled>Convert</button>
+
+                <div id="loadingIndicator" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    Processing...
+                </div>
+
+                <div id="resultInfo" style="display: none; margin-top: 24px;">
+                    <div class="info-section">
+                        <h3 class="section-title">Image Info</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Block Size:</span>
+                                <span class="info-value" id="blockSizeInfo">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Original Size:</span>
+                                <span class="info-value" id="originalSizeInfo">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Result Size:</span>
+                                <span class="info-value" id="resultSizeInfo">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Padding:</span>
+                                <span class="info-value" id="paddingInfo">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a id="downloadBtn" href="#" download="pixel-art-result.png" class="download-button">Download
+                        Result</a>
+                </div>
+
+                <div id="errorSection" style="display: none;">
+                    <p>Error: <span id="errorMessage"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Display Area -->
+        <div class="image-display">
+            <div class="split-view-container" id="resultSection" style="display: none;">
+                <div class="image-pane" id="resultPane">
+                    <div class="image-label">Result</div>
+                    <div class="pane-content">
+                        <img id="resultImage" alt="Result Image">
+                    </div>
+                </div>
+                <div class="gutter" id="gutter"></div>
+                <div class="image-pane" id="originalPane">
+                    <div class="image-label">Original</div>
+                    <div class="pane-content">
+                        <img id="originalImage" alt="Original Image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📷</div>
+                <div class="empty-text">Choose an image to get started</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
