@@ -447,3 +447,17 @@ input[type="radio"] {
     font-size: 1.1rem;
     max-width: 300px;
 }
+
+.empty-hints{
+    text-align: left;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.preview-image {
+    margin-top: 10px;
+    max-width: 100%;
+    width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+}
